@@ -1,21 +1,19 @@
 import { Button } from './components/ui/button'
 import {
-  Select,
-  SelectContent,
-  SelectGroup,
-  SelectItem,
-  SelectLabel,
-  SelectTrigger,
-  SelectValue
-} from './components/ui/select'
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuGroup,
+  DropdownMenuItem,
+  DropdownMenuTrigger
+} from './components/ui/dropdown-menu'
 import { Avatar, AvatarFallback, AvatarImage } from './components/ui/avatar'
 import { Badge } from './components/ui/badge'
 import BlurFade from './components/magicui/blur-fade'
 import { ProjectCard } from './components/project-card'
 import { ResumeCard } from './components/resume-card'
 import { RESUME_DATA } from './data/resume'
-
 import { DotPattern } from './components/magicui/dot-pattern'
+import { Globe } from 'lucide-react'
 import { cn } from './lib/utils'
 
 const BLUR_FADE_DELAY = 0.04
@@ -32,20 +30,25 @@ function App() {
 
       {/* 国际化 */}
       <section id="i18n">
-        <Select>
-          <SelectTrigger className="w-auto">
-            <SelectValue placeholder="Select your target language" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectGroup>
-              <SelectItem value="1">English</SelectItem>
-              <SelectItem value="2">简体中文</SelectItem>
-              <SelectItem value="3">繁体中文</SelectItem>
-              <SelectItem value="4">日本語</SelectItem>
-              <SelectItem value="5">한국인</SelectItem>
-            </SelectGroup>
-          </SelectContent>
-        </Select>
+        <BlurFade delay={BLUR_FADE_DELAY} inView>
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="secondary">
+                <Globe />
+                <p>i18n</p>
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent className="w-56" align="start">
+              <DropdownMenuGroup>
+                <DropdownMenuItem>English</DropdownMenuItem>
+                <DropdownMenuItem>简体中文</DropdownMenuItem>
+                <DropdownMenuItem>繁体中文</DropdownMenuItem>
+                <DropdownMenuItem>日本語</DropdownMenuItem>
+                <DropdownMenuItem>한국인</DropdownMenuItem>
+              </DropdownMenuGroup>
+            </DropdownMenuContent>
+          </DropdownMenu>
+        </BlurFade>
       </section>
 
       {/* 打招呼 */}
