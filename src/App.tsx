@@ -1,75 +1,126 @@
-import { Avatar, AvatarFallback, AvatarImage } from "./components/ui/avatar";
-import { Badge } from "./components/ui/badge";
-import BlurFade from "./components/magicui/blur-fade";
-import { ProjectCard } from "./components/project-card";
-import { ResumeCard } from "./components/resume-card";
-import { RESUME_DATA } from "./data/resume";
+import { Button } from './components/ui/button'
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue
+} from './components/ui/select'
+import { Avatar, AvatarFallback, AvatarImage } from './components/ui/avatar'
+import { Badge } from './components/ui/badge'
+import BlurFade from './components/magicui/blur-fade'
+import { ProjectCard } from './components/project-card'
+import { ResumeCard } from './components/resume-card'
+import { RESUME_DATA } from './data/resume'
 
-import { DotPattern } from "./components/magicui/dot-pattern";
-import { cn } from "./lib/utils";
+import { DotPattern } from './components/magicui/dot-pattern'
+import { cn } from './lib/utils'
 
-const BLUR_FADE_DELAY = 0.04;
+const BLUR_FADE_DELAY = 0.04
 
 function App() {
   return (
-    <main className="flex flex-col min-h-[100dvh] space-y-10 max-w-2xl mx-auto py-12 px-6 font-sans">
+    <main className="flex flex-col min-h-[100dvh] space-y-10 max-w-4xl mx-auto pb-12 px-6 font-sans">
+      {/* 这是那个点点点的背景哦 */}
       <DotPattern
         className={cn(
-          "[mask-image:radial-gradient(300px_circle_at_center,white,transparent)]",
+          '[mask-image:radial-gradient(300px_circle_at_center,white,transparent)]'
         )}
       />
+
+      {/* 国际化 */}
+      <section id="i18n">
+        <Select>
+          <SelectTrigger className="w-auto">
+            <SelectValue placeholder="Select your target language" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectGroup>
+              <SelectItem value="1">English</SelectItem>
+              <SelectItem value="2">简体中文</SelectItem>
+              <SelectItem value="3">繁体中文</SelectItem>
+              <SelectItem value="4">日本語</SelectItem>
+              <SelectItem value="5">한국인</SelectItem>
+            </SelectGroup>
+          </SelectContent>
+        </Select>
+      </section>
+
+      {/* 打招呼 */}
       <section id="hero">
-        <div className="mx-auto w-full max-w-2xl space-y-8">
+        {/* 打招呼的最外层容器 */}
+        <div className="mx-auto w-full max-w-4xl space-y-8">
           <div className="gap-2 flex justify-between">
-            <div className="flex-col flex flex-1 space-y-1.5">
+            {/* 简单的自我介绍区域 */}
+            <div className="flex-col flex flex-1 space-y-2">
+              {/* 标题-渐入效果版 */}
               <BlurFade delay={BLUR_FADE_DELAY} inView>
                 <h1 className="text-3xl font-bold tracking-tighter sm:text-5xl xl:text-6xl/none">
                   Hi, I'm {RESUME_DATA.name} 👋
                 </h1>
               </BlurFade>
+
+              {/* 关于我-渐入效果版 */}
               <BlurFade delay={BLUR_FADE_DELAY * 2} inView>
-                <p className="max-w-[600px] md:text-xl">
-                  {RESUME_DATA.about}
-                </p>
+                <p className="max-w-[600px] md:text-xl">{RESUME_DATA.about}</p>
               </BlurFade>
             </div>
+
+            {/* 头像区域-渐入效果版 */}
             <BlurFade delay={BLUR_FADE_DELAY} inView>
               <Avatar className="size-28 border">
-                <AvatarImage alt={RESUME_DATA.name} src={RESUME_DATA.avatarUrl} />
-                <AvatarFallback className="text-3xl">{RESUME_DATA.initials}</AvatarFallback>
+                <AvatarImage
+                  alt={RESUME_DATA.name}
+                  src={RESUME_DATA.avatarUrl}
+                />
+                <AvatarFallback className="text-4xl">
+                  {RESUME_DATA.initials}
+                </AvatarFallback>
               </Avatar>
             </BlurFade>
           </div>
         </div>
       </section>
+
+      {/* 关于我 */}
       <section id="about">
+        {/* 关于我区域的标题-渐入效果版 */}
         <BlurFade delay={BLUR_FADE_DELAY * 3} inView>
-          <h2 className="text-xl font-bold">About</h2>
+          <h2 className="text-xl font-bold mb-2">About</h2>
         </BlurFade>
+
+        {/* 关于我区域的内容-渐入效果版 */}
         <BlurFade delay={BLUR_FADE_DELAY * 4} inView>
           <p className="prose max-w-full text-pretty font-sans text-sm text-muted-foreground dark:prose-invert">
             {RESUME_DATA.summary}
           </p>
         </BlurFade>
       </section>
+
+      {/* 工作经历 */}
       <section id="work">
         <div className="flex min-h-0 flex-col gap-y-3">
+          {/* 工作经历标题 */}
           <BlurFade delay={BLUR_FADE_DELAY * 5} inView>
             <h2 className="text-xl font-bold">Work Experience</h2>
           </BlurFade>
+
+          {/* 工作经历内容 */}
           {RESUME_DATA.work.map((work, id) => (
             <BlurFade
               key={work.company}
               delay={BLUR_FADE_DELAY * 6 + id * 0.05}
               inView
             >
+              {/* 工作经历卡片 */}
               <ResumeCard
                 key={work.company}
                 logoUrl={work.logoUrl}
                 altText={work.company}
                 title={work.company}
                 subtitle={work.title}
-                href={work.href}
                 badges={work.badges}
                 period={`${work.start} - ${work.end}`}
                 description={work.description}
@@ -78,6 +129,7 @@ function App() {
           ))}
         </div>
       </section>
+
       <section id="education">
         <div className="flex min-h-0 flex-col gap-y-3">
           <BlurFade delay={BLUR_FADE_DELAY * 7} inView>
@@ -91,12 +143,11 @@ function App() {
             >
               <ResumeCard
                 key={education.school}
-                href="#"
-                logoUrl=""
+                logoUrl={education.logoUrl}
                 altText={education.school}
                 title={education.school}
                 subtitle={education.degree}
-                period={`${education.start} - ${education.end}`}
+                description={education.description}
               />
             </BlurFade>
           ))}
@@ -109,7 +160,11 @@ function App() {
           </BlurFade>
           <div className="flex flex-wrap gap-1">
             {RESUME_DATA.skills.map((skill, id) => (
-              <BlurFade key={skill} delay={BLUR_FADE_DELAY * 10 + id * 0.05} inView>
+              <BlurFade
+                key={skill}
+                delay={BLUR_FADE_DELAY * 10 + id * 0.05}
+                inView
+              >
                 <Badge key={skill}>{skill}</Badge>
               </BlurFade>
             ))}
@@ -169,13 +224,13 @@ function App() {
                 Get in Touch
               </h2>
               <p className="mx-auto max-w-[600px] text-muted-foreground md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
-                Want to chat? Just shoot me a dm{" "}
+                Want to chat? Just shoot me a dm{' '}
                 <a
                   href={RESUME_DATA.contact.social.X.url}
                   className="text-blue-500 hover:underline"
                 >
                   with a direct question on twitter
-                </a>{" "}
+                </a>{' '}
                 and I&apos;ll respond whenever I can. I will ignore all
                 soliciting.
               </p>
@@ -184,7 +239,7 @@ function App() {
         </div>
       </section>
     </main>
-  );
+  )
 }
 
-export default App;
+export default App
