@@ -1,0 +1,23 @@
+name: resume
+
+services:
+  web:
+    image: resume-web:prod
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        # If your server cannot access Docker Hub, point these to a reachable mirror/registry.
+        NODE_IMAGE: ${NODE_IMAGE:-node:20-alpine}
+        NGINX_IMAGE: ${NGINX_IMAGE:-nginx:1.27-alpine}
+    restart: unless-stopped
+    networks:
+      - default
+      - npm
+    ports:
+      - "${HOST_PORT:-80}:80"
+
+networks:
+  npm:
+    external: true
+    name: ${NPM_NETWORK:-npm_default}

@@ -1,8 +1,9 @@
-import { Github, Linkedin, Twitter, Globe } from 'lucide-react'
+import { Github, Linkedin, Twitter, Globe, Smartphone } from 'lucide-react'
 import Avatar from '../assets/img/avatar.jpg'
 import TsinghuaLogo from '../assets/img/tsinghua.png'
 import CredatLogo from '../assets/img/credat.png'
 import TUTELogo from '../assets/img/TUTE.png'
+import OLP from '@/assets/cover/olp_scene.mp4'
 
 export const RESUME_DATA = {
   name: 'Violet',
@@ -62,59 +63,81 @@ export const RESUME_DATA = {
     'Tailwind CSS',
     'TypeScript',
     'Java',
+    'Spring Boot',
     'Node.js',
+    'Express',
     'MySQL',
     'Docker',
     'Nginx'
   ],
   projects: [
+    // 在线学习平台
     {
-      title: 'Project Alpha',
-      href: 'https://example.com',
-      dates: 'Jan 2024 - Feb 2024',
+      title: 'Online Learning Platform',
+      href: '',
+      dates: 'Sep 2024 - May 2025',
       active: true,
       description:
-        'A revolutionary AI-powered task manager that helps you stay organized and productive.',
+        'Two-phase internal training system for Iraq’s Majnoon oil field: Phase 1 delivers online learning, records, courses, exams, mandatory tasks, and training. Phase 2 adds online classroom and full training management end-to-end.',
       technologies: [
-        'Next.js',
+        'Vue3',
         'Typescript',
-        'PostgreSQL',
-        'Prisma',
-        'TailwindCSS'
+        'Tailwind CSS',
+        'Spring Cloud',
+        'MySQL'
       ],
       links: [
         {
           type: 'Website',
-          href: 'https://example.com',
           icon: <Globe className="size-3" />
         },
-        {
-          type: 'Source',
-          href: 'https://github.com/example/project-alpha',
-          icon: <Github className="size-3" />
-        }
       ],
-      image: 'https://placehold.co/600x400?text=Project+Alpha',
-      video: ''
+      image: '',
+      video: OLP
     },
+
+    // 档案管理系统 PDA端
     {
-      title: 'Project Beta',
-      href: 'https://example.com',
-      dates: 'June 2023 - July 2023',
+      title: 'General Record Management for PDA',
+      href: '',
+      dates: 'Oct 2025 - Nov 2025',
       active: true,
       description:
-        'An e-commerce platform built with modern technologies, featuring a seamless checkout experience.',
+        'Integrated Android UHF RFID for real-time EPC reading and hardware-key control. Delivered inventory counting, scan-to-search, inbound/outbound, binding, and compliance checks across archiving, retrieval, and destruction.',
       technologies: ['React', 'Redux', 'Stripe', 'TailwindCSS'],
       links: [
         {
-          type: 'Website',
-          href: 'https://example.com',
-          icon: <Globe className="size-3" />
-        }
+          type: 'Mobile',
+          icon: <Smartphone className="size-3" />
+        },
       ],
       image: 'https://placehold.co/600x400?text=Project+Beta',
       video: ''
-    }
+    },
+
+    // 个人博客
+    // {
+    //   title: 'General Record Management for PDA',
+    //   href: '',
+    //   dates: 'June 2023 - July 2023',
+    //   active: true,
+    //   description:
+    //     'An e-commerce platform built with modern technologies, featuring a seamless checkout experience.',
+    //   technologies: ['React', 'Redux', 'Stripe', 'TailwindCSS'],
+    //   links: [
+    //     {
+    //       type: 'Website',
+    //       icon: <Globe className="size-3" />
+    //     },
+    //     {
+    //       type: 'Source',
+    //       href: 'https://github.com/example/project-alpha',
+    //       icon: <Github className="size-3" />
+    //     }
+    //   ],
+    //   image: 'https://placehold.co/600x400?text=Project+Beta',
+    //   video: ''
+    // }
   ],
   contact: {
     email: 'violetcho@126.com',
@@ -122,7 +145,7 @@ export const RESUME_DATA = {
     social: {
       GitHub: {
         name: 'GitHub',
-        url: 'https://github.com',
+        url: 'https://github.com/Violetory',
         icon: Github
       },
       LinkedIn: {

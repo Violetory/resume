@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import { Button } from './components/ui/button'
 import {
   DropdownMenu,
@@ -13,14 +14,25 @@ import { ProjectCard } from './components/project-card'
 import { ResumeCard } from './components/resume-card'
 import { RESUME_DATA } from './data/resume'
 import { DotPattern } from './components/magicui/dot-pattern'
-import { Globe } from 'lucide-react'
+import { ChevronDown, Globe, Mail, Phone } from 'lucide-react'
 import { cn } from './lib/utils'
 
 const BLUR_FADE_DELAY = 0.04
+const LANGUAGES = [
+  { label: 'English', value: 'en' },
+  { label: '简体中文', value: 'zh-CN' },
+  { label: '繁体中文', value: 'zh-TW' },
+  { label: '日本語', value: 'ja' },
+  { label: '한국어', value: 'ko' }
+] as const
 
 function App() {
+  const [selectedLanguage, setSelectedLanguage] = useState<
+    (typeof LANGUAGES)[number]
+  >(LANGUAGES[0])
+
   return (
-    <main className="flex flex-col min-h-[100dvh] space-y-10 max-w-4xl mx-auto pb-12 px-6 font-sans">
+    <main className="flex flex-col min-h-[100dvh] space-y-10 max-w-5xl mx-auto pb-12 px-6 font-sans">
       {/* 这是那个点点点的背景哦 */}
       <DotPattern
         className={cn(
@@ -33,18 +45,31 @@ function App() {
         <BlurFade delay={BLUR_FADE_DELAY} inView>
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button variant="secondary">
-                <Globe />
-                <p>i18n</p>
+              <Button
+                type="button"
+                variant="outline"
+                size="sm"
+                className="group gap-2 rounded-full text-sm"
+              >
+                <Globe className="size-4 shrink-0" />
+                <span>{selectedLanguage.label}</span>
+                <ChevronDown className="size-4 shrink-0 transition-transform duration-200 group-data-[state=open]:rotate-180" />
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent className="w-56" align="start">
               <DropdownMenuGroup>
-                <DropdownMenuItem>English</DropdownMenuItem>
-                <DropdownMenuItem>简体中文</DropdownMenuItem>
-                <DropdownMenuItem>繁体中文</DropdownMenuItem>
-                <DropdownMenuItem>日本語</DropdownMenuItem>
-                <DropdownMenuItem>한국인</DropdownMenuItem>
+                {LANGUAGES.map(language => (
+                  <DropdownMenuItem
+                    key={language.value}
+                    onSelect={() => setSelectedLanguage(language)}
+                    className={cn(
+                      selectedLanguage.value === language.value &&
+                        'bg-accent text-accent-foreground'
+                    )}
+                  >
+                    {language.label}
+                  </DropdownMenuItem>
+                ))}
               </DropdownMenuGroup>
             </DropdownMenuContent>
           </DropdownMenu>
@@ -54,7 +79,7 @@ function App() {
       {/* 打招呼 */}
       <section id="hero">
         {/* 打招呼的最外层容器 */}
-        <div className="mx-auto w-full max-w-4xl space-y-8">
+        <div className="w-full space-y-8">
           <div className="gap-2 flex justify-between">
             {/* 简单的自我介绍区域 */}
             <div className="flex-col flex flex-1 space-y-2">
@@ -67,7 +92,7 @@ function App() {
 
               {/* 关于我-渐入效果版 */}
               <BlurFade delay={BLUR_FADE_DELAY * 2} inView>
-                <p className="max-w-[600px] md:text-xl">{RESUME_DATA.about}</p>
+                <p className="md:text-xl">{RESUME_DATA.about}</p>
               </BlurFade>
             </div>
 
@@ -104,7 +129,7 @@ function App() {
 
       {/* 工作经历 */}
       <section id="work">
-        <div className="flex min-h-0 flex-col gap-y-3">
+        <div className="flex min-h-0 flex-col gap-y-3 md:gap-y-4">
           {/* 工作经历标题 */}
           <BlurFade delay={BLUR_FADE_DELAY * 5} inView>
             <h2 className="text-xl font-bold">Work Experience</h2>
@@ -133,6 +158,7 @@ function App() {
         </div>
       </section>
 
+      {/* 教育背景 */}
       <section id="education">
         <div className="flex min-h-0 flex-col gap-y-3">
           <BlurFade delay={BLUR_FADE_DELAY * 7} inView>
@@ -168,12 +194,16 @@ function App() {
                 delay={BLUR_FADE_DELAY * 10 + id * 0.05}
                 inView
               >
-                <Badge key={skill}>{skill}</Badge>
+                <Badge key={skill} className="rounded-md">
+                  {skill}
+                </Badge>
               </BlurFade>
             ))}
           </div>
         </div>
       </section>
+
+      {/* 项目经历 */}
       <section id="projects">
         <div className="space-y-12 w-full py-12">
           <BlurFade delay={BLUR_FADE_DELAY * 11} inView>
@@ -193,7 +223,7 @@ function App() {
               </div>
             </div>
           </BlurFade>
-          <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 max-w-[800px] mx-auto">
+          <div className="grid grid-cols-1 gap-4 md:gap-5 sm:grid-cols-2 mx-auto">
             {RESUME_DATA.projects.map((project, id) => (
               <BlurFade
                 key={project.title}
@@ -226,17 +256,56 @@ function App() {
               <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl">
                 Get in Touch
               </h2>
-              <p className="mx-auto max-w-[600px] text-muted-foreground md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
-                Want to chat? Just shoot me a dm{' '}
-                <a
-                  href={RESUME_DATA.contact.social.X.url}
-                  className="text-blue-500 hover:underline"
-                >
-                  with a direct question on twitter
-                </a>{' '}
-                and I&apos;ll respond whenever I can. I will ignore all
-                soliciting.
+              <p className="text-muted-foreground md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
+                Want to chat? Just click on the platform below to view my
+                information and contact me on the corresponding platform.
               </p>
+
+              <div className="flex items-center justify-center gap-10 w-full pt-6">
+                {/* 邮箱 */}
+                <div className="flex items-center gap-2">
+                  <Mail className="size-4" />
+                  <a
+                    href={`mailto:${RESUME_DATA.contact.email}`}
+                    className="underline"
+                  >
+                    {RESUME_DATA.contact.email}
+                  </a>
+                </div>
+
+                {/* 电话 */}
+                <div className="flex items-center gap-2">
+                  <Phone className="size-4" />
+                  <a
+                    href={`tel:${RESUME_DATA.contact.tel.replace(/[^\d+]/g, '')}`}
+                    className="underline"
+                  >
+                    {RESUME_DATA.contact.tel}
+                  </a>
+                </div>
+              </div>
+
+              <div className="flex items-center justify-center gap-1 w-full">
+                {Object.values(RESUME_DATA.contact.social).map(social => (
+                  <Button
+                    key={social.name}
+                    asChild
+                    variant="ghost"
+                    size="icon"
+                    className="rounded-lg"
+                  >
+                    <a
+                      href={social.url}
+                      target="_blank"
+                      rel="noreferrer"
+                      aria-label={social.name}
+                      title={social.name}
+                    >
+                      <social.icon className="size-4" />
+                    </a>
+                  </Button>
+                ))}
+              </div>
             </div>
           </BlurFade>
         </div>
