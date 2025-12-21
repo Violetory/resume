@@ -261,7 +261,7 @@ function App() {
                 information and contact me on the corresponding platform.
               </p>
 
-              <div className="flex items-center justify-center gap-10 w-full pt-6">
+              <div className="flex items-center justify-center gap-5 md:gap-10 w-full pt-6">
                 {/* 邮箱 */}
                 <div className="flex items-center gap-2">
                   <Mail className="size-4" />

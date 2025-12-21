@@ -141,7 +141,7 @@ export const RESUME_DATA = {
   ],
   contact: {
     email: 'violetcho@126.com',
-    tel: '+86 17695526347',
+    tel: '17695526347',
     social: {
       GitHub: {
         name: 'GitHub',
