@@ -1,4 +1,3 @@
-import { useState } from 'react'
 import { Button } from './components/ui/button'
 import {
   DropdownMenu,
@@ -16,23 +15,21 @@ import { RESUME_DATA } from './data/resume'
 import { DotPattern } from './components/magicui/dot-pattern'
 import { ChevronDown, Globe, Mail, Phone } from 'lucide-react'
 import { cn } from './lib/utils'
+import { LANGUAGES, useI18n } from './i18n'
 
 const BLUR_FADE_DELAY = 0.04
-const LANGUAGES = [
-  { label: 'English', value: 'en' },
-  { label: '简体中文', value: 'zh-CN' },
-  { label: '繁体中文', value: 'zh-TW' },
-  { label: '日本語', value: 'ja' },
-  { label: '한국어', value: 'ko' }
-] as const
 
 function App() {
-  const [selectedLanguage, setSelectedLanguage] = useState<
-    (typeof LANGUAGES)[number]
-  >(LANGUAGES[0])
+  const { locale, setLocale, t } = useI18n()
+  const selectedLanguage =
+    LANGUAGES.find(language => language.value === locale) ?? LANGUAGES[0]
+  const resumeData = RESUME_DATA[locale]
 
   return (
-    <main className="flex flex-col min-h-[100dvh] space-y-10 max-w-5xl mx-auto pb-12 px-6 font-sans">
+    <main
+      key={locale}
+      className="flex flex-col min-h-[100dvh] space-y-10 max-w-5xl mx-auto pb-12 px-6 font-sans"
+    >
       {/* 这是那个点点点的背景哦 */}
       <DotPattern
         className={cn(
@@ -61,7 +58,7 @@ function App() {
                 {LANGUAGES.map(language => (
                   <DropdownMenuItem
                     key={language.value}
-                    onSelect={() => setSelectedLanguage(language)}
+                    onSelect={() => setLocale(language.value)}
                     className={cn(
                       selectedLanguage.value === language.value &&
                         'bg-accent text-accent-foreground'
@@ -86,13 +83,13 @@ function App() {
               {/* 标题-渐入效果版 */}
               <BlurFade delay={BLUR_FADE_DELAY} inView>
                 <h1 className="text-3xl font-bold tracking-tighter sm:text-5xl xl:text-6xl/none">
-                  Hi, I'm {RESUME_DATA.name} 👋
+                  {t('hero.greeting', { name: resumeData.name })}
                 </h1>
               </BlurFade>
 
               {/* 关于我-渐入效果版 */}
               <BlurFade delay={BLUR_FADE_DELAY * 2} inView>
-                <p className="md:text-xl">{RESUME_DATA.about}</p>
+                <p className="md:text-xl">{resumeData.about}</p>
               </BlurFade>
             </div>
 
@@ -100,11 +97,11 @@ function App() {
             <BlurFade delay={BLUR_FADE_DELAY} inView>
               <Avatar className="size-28 border">
                 <AvatarImage
-                  alt={RESUME_DATA.name}
-                  src={RESUME_DATA.avatarUrl}
+                  alt={resumeData.name}
+                  src={resumeData.avatarUrl}
                 />
                 <AvatarFallback className="text-4xl">
-                  {RESUME_DATA.initials}
+                  {resumeData.initials}
                 </AvatarFallback>
               </Avatar>
             </BlurFade>
@@ -116,13 +113,13 @@ function App() {
       <section id="about">
         {/* 关于我区域的标题-渐入效果版 */}
         <BlurFade delay={BLUR_FADE_DELAY * 3} inView>
-          <h2 className="text-xl font-bold mb-2">About</h2>
+          <h2 className="text-xl font-bold mb-2">{t('section.about')}</h2>
         </BlurFade>
 
         {/* 关于我区域的内容-渐入效果版 */}
         <BlurFade delay={BLUR_FADE_DELAY * 4} inView>
           <p className="prose max-w-full text-pretty font-sans text-sm text-muted-foreground dark:prose-invert">
-            {RESUME_DATA.summary}
+            {resumeData.summary}
           </p>
         </BlurFade>
       </section>
@@ -132,11 +129,11 @@ function App() {
         <div className="flex min-h-0 flex-col gap-y-3 md:gap-y-4">
           {/* 工作经历标题 */}
           <BlurFade delay={BLUR_FADE_DELAY * 5} inView>
-            <h2 className="text-xl font-bold">Work Experience</h2>
+            <h2 className="text-xl font-bold">{t('section.work')}</h2>
           </BlurFade>
 
           {/* 工作经历内容 */}
-          {RESUME_DATA.work.map((work, id) => (
+          {resumeData.work.map((work, id) => (
             <BlurFade
               key={work.company}
               delay={BLUR_FADE_DELAY * 6 + id * 0.05}
@@ -162,9 +159,9 @@ function App() {
       <section id="education">
         <div className="flex min-h-0 flex-col gap-y-3">
           <BlurFade delay={BLUR_FADE_DELAY * 7} inView>
-            <h2 className="text-xl font-bold">Education</h2>
+            <h2 className="text-xl font-bold">{t('section.education')}</h2>
           </BlurFade>
-          {RESUME_DATA.education.map((education, id) => (
+          {resumeData.education.map((education, id) => (
             <BlurFade
               key={education.school}
               delay={BLUR_FADE_DELAY * 8 + id * 0.05}
@@ -185,10 +182,10 @@ function App() {
       <section id="skills">
         <div className="flex min-h-0 flex-col gap-y-3">
           <BlurFade delay={BLUR_FADE_DELAY * 9} inView>
-            <h2 className="text-xl font-bold">Skills</h2>
+            <h2 className="text-xl font-bold">{t('section.skills')}</h2>
           </BlurFade>
           <div className="flex flex-wrap gap-1">
-            {RESUME_DATA.skills.map((skill, id) => (
+            {resumeData.skills.map((skill, id) => (
               <BlurFade
                 key={skill}
                 delay={BLUR_FADE_DELAY * 10 + id * 0.05}
@@ -210,21 +207,19 @@ function App() {
             <div className="flex flex-col items-center justify-center space-y-4 text-center">
               <div className="space-y-2">
                 <div className="inline-block rounded-lg bg-foreground text-background px-3 py-1 text-sm">
-                  My Projects
+                  {t('projects.badge')}
                 </div>
                 <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl">
-                  Check out my latest work
+                  {t('projects.title')}
                 </h2>
                 <p className="text-muted-foreground md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
-                  I&apos;ve worked on a variety of projects, from simple
-                  websites to complex web applications. Here are a few of my
-                  favorites.
+                  {t('projects.description')}
                 </p>
               </div>
             </div>
           </BlurFade>
           <div className="grid grid-cols-1 gap-4 md:gap-5 sm:grid-cols-2 mx-auto">
-            {RESUME_DATA.projects.map((project, id) => (
+            {resumeData.projects.map((project, id) => (
               <BlurFade
                 key={project.title}
                 delay={BLUR_FADE_DELAY * 12 + id * 0.05}
@@ -251,14 +246,13 @@ function App() {
           <BlurFade delay={BLUR_FADE_DELAY * 13} inView>
             <div className="space-y-3">
               <div className="inline-block rounded-lg bg-foreground text-background px-3 py-1 text-sm">
-                Contact
+                {t('contact.badge')}
               </div>
               <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl">
-                Get in Touch
+                {t('contact.title')}
               </h2>
               <p className="text-muted-foreground md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
-                Want to chat? Just click on the platform below to view my
-                information and contact me on the corresponding platform.
+                {t('contact.description')}
               </p>
 
               <div className="flex items-center justify-center gap-5 md:gap-10 w-full pt-6">
@@ -266,10 +260,10 @@ function App() {
                 <div className="flex items-center gap-2">
                   <Mail className="size-4" />
                   <a
-                    href={`mailto:${RESUME_DATA.contact.email}`}
+                    href={`mailto:${resumeData.contact.email}`}
                     className="underline"
                   >
-                    {RESUME_DATA.contact.email}
+                    {resumeData.contact.email}
                   </a>
                 </div>
 
@@ -277,16 +271,16 @@ function App() {
                 <div className="flex items-center gap-2">
                   <Phone className="size-4" />
                   <a
-                    href={`tel:${RESUME_DATA.contact.tel.replace(/[^\d+]/g, '')}`}
+                    href={`tel:${resumeData.contact.tel.replace(/[^\d+]/g, '')}`}
                     className="underline"
                   >
-                    {RESUME_DATA.contact.tel}
+                    {resumeData.contact.tel}
                   </a>
                 </div>
               </div>
 
               <div className="flex items-center justify-center gap-1 w-full">
-                {Object.values(RESUME_DATA.contact.social).map(social => (
+                {Object.values(resumeData.contact.social).map(social => (
                   <Button
                     key={social.name}
                     asChild
