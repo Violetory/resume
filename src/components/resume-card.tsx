@@ -36,11 +36,7 @@ export const ResumeCard = ({
       <Card className="flex shadow-sm hover:shadow-md transition-shadow duration-300">
         <div className="flex-none mt-6 ml-6 md:mt-7 md:ml-7">
           <Avatar className="m-auto bg-muted-background dark:bg-foreground">
-            <AvatarImage
-              src={logoUrl}
-              alt={altText}
-              className="object-contain"
-            />
+            <AvatarImage src={logoUrl} alt={altText} />
             <AvatarFallback>{altText[0]}</AvatarFallback>
           </Avatar>
         </div>
@@ -48,7 +44,7 @@ export const ResumeCard = ({
         <div className="flex-grow items-center flex-col group">
           <div className="text-xs sm:text-sm p-6 md:p-7">
             <div className="flex items-center justify-between gap-2 text-base">
-              <h3 className="flex items-center justify-center gap-1 min-h-[22px] font-semibold leading-none text-sm md:text-md">
+              <h3 className="flex items-center justify-center gap-2 min-h-[22px] font-semibold leading-none text-sm md:text-md">
                 {title}
 
                 {badges?.length ? (
@@ -71,13 +67,9 @@ export const ResumeCard = ({
                   </span>
                 )}
               </h3>
-
-              <div className="text-xs sm:text-sm tabular-nums text-muted-foreground text-right">
-                {period}
-              </div>
             </div>
 
-            {subtitle && <div className="font-sans text-xs">{subtitle}</div>}
+            {subtitle && <div className="font-sans text-xs mt-1">{subtitle}</div>}
 
             {description && (
               <motion.div
@@ -92,7 +84,7 @@ export const ResumeCard = ({
                   ease: [0.16, 1, 0.3, 1]
                 }}
               >
-                <p className="pt-4">{description}</p>
+                <p className="pt-4 whitespace-pre-line">{description}</p>
               </motion.div>
             )}
           </div>

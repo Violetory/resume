@@ -9,9 +9,8 @@ export const LANGUAGES = [
 export type LanguageOption = (typeof LANGUAGES)[number]
 export type Locale = LanguageOption['value']
 
-export const DEFAULT_LOCALE: Locale = LANGUAGES[0].value
+export const DEFAULT_LOCALE: Locale = 'en'
 
 export function isLocale(value: string | null | undefined): value is Locale {
   return LANGUAGES.some(language => language.value === value)
 }
-

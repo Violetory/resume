@@ -82,7 +82,12 @@ function App() {
             <div className="flex-col flex flex-1 space-y-2">
               {/* 标题-渐入效果版 */}
               <BlurFade delay={BLUR_FADE_DELAY} inView>
-                <h1 className="text-3xl font-bold tracking-tighter sm:text-5xl xl:text-6xl/none">
+                <h1
+                  className={cn(
+                    locale === 'zh-CN' ? 'text-2xl' : 'text-3xl',
+                    'font-bold tracking-tighter sm:text-5xl xl:text-6xl/none'
+                  )}
+                >
                   {t('hero.greeting', { name: resumeData.name })}
                 </h1>
               </BlurFade>
