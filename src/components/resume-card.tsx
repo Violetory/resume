@@ -19,7 +19,6 @@ export const ResumeCard = ({
   title,
   subtitle,
   badges,
-  period,
   description
 }: ResumeCardProps) => {
   const [isExpanded, setIsExpanded] = React.useState(false)
